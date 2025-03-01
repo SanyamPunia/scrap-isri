@@ -14,9 +14,14 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function ItemPage({ params }: { params: { id: string } }) {
+export default async function ItemPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   const items = await getItems();
-  const item = items.find((item) => item.xata_id === params.id);
+  const item = items.find((item) => item.xata_id === id);
 
   if (!item) {
     notFound();
